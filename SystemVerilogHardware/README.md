@@ -1,7 +1,9 @@
 # ISAP-A-128A SystemVerilog port
 
-Stage 1 is complete: a combinational Ascon-p round and a direct comparison
-against the upstream VHDL round. The AEAD controller/datapath is not yet ported.
+Stages 1 and 2 are complete. Stage 3 regression, rejection testing, cycle
+comparison, and synthesis have run; inherited upstream limitations are recorded
+in [STAGE3_RESULTS.md](STAGE3_RESULTS.md). The 32-bit ISAP-A-128A core and its
+Ascon-p round are implemented in SystemVerilog and tested through the VHDL wrapper.
 All new RTL, test code, adapters, scripts, and generated build files belong in
 this directory. Upstream files and the `hardware/isap_lwc/Makefile` are unchanged.
 
@@ -30,9 +32,9 @@ The controller must supply `12,11,...,1` for sH/sK, `6,5,...,1` for sE, and
 `1` for sB. The round constant is `{15-t, t}`, where `t=(12-rcon) mod 16`;
 for example, rcon 12 gives 0xf0, rcon 6 gives 0x96, and rcon 1 gives 0x4b.
 All 16 binary rcon values retain the VHDL behavior, although only 1..12 are
-active AEAD round counts. The only helper ported so far is the 64-bit byte
-reversal used by the round. Other data-format and padding helpers belong to
-Stage 2. Standalone Ascon-Hash and other ISAP variants are outside the port.
+active AEAD round counts. The round uses the 64-bit byte
+reversal helper. Other data-format and padding helpers are included in the
+Stage 2 core. Standalone Ascon-Hash and other ISAP variants are outside the port.
 
 ## Reproduce Stage 1
 
@@ -66,37 +68,85 @@ comparison of VHDL's nine-state logic with SystemVerilog's four-state logic.
 Build products and simulator logs are in `build/round_equivalence/` (ignored by
 Git). `STAGE1_RESULTS.md` records the completed run and its limitations.
 
-## Resume at Stage 2
+## Reproduce Stage 2
 
-Next concrete step: port the AEAD-only `CryptoCore_2pass` entity/architecture
-from `hardware/isap_lwc/src_rtl/v1/CryptoCore.vhd`, starting with its exact port
-list and `design_pkg` constants/helpers, and instantiate `asconp_sv` for its
-one-round combinational datapath. Preserve the existing 32-bit interface,
-active-high synchronous core reset, ordering, padding, handshake behavior,
-round scheduling, authentication decision, and AEAD cycle counts. Exclude the
-hash state paths and Keccak/other ISAP variant logic. Keep any wrapper-required
-hash interface compatibility separate from implementing hash functionality.
+The 32-bit AEAD core is `crypto_core_2pass_sv`. The separate Vivado build
+uses `rtl/crypto_core_2pass_binding.vhd` in place of the original core.
+The upstream wrapper binds to that adapter and the adapter binds to the
+SystemVerilog module. Each design uses a separate work directory.
 
-Then add a **separate** Vivado mixed-language configuration under this directory
-to reuse the VHDL LWC wrapper and testbench. Keep the VHDL adapter and SV core
-names distinct to avoid accidental binding to the original core. Preserve
-`cd hardware/isap_lwc; make v1` as the upstream baseline; do not overwrite its
-manifest, Makefile, RTL, wrappers, or test vectors.
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File ./SystemVerilogHardware/run_aead_smoke.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File ./SystemVerilogHardware/run_aead_smoke.ps1 -Reference
+```
 
-Two checkout details matter for that configuration:
+The runner reuses the VHDL testbench and a subset of the original AEAD test
+vectors. Default mode 4 emits per-message cycle counts. Use `-TestMode 1`
+for stalls on both stimulus and output, or `-VivadoBin` for another Vivado
+installation. See [STAGE2_RESULTS.md](STAGE2_RESULTS.md) for results.
 
-- Resolve checked-in symlink targets when the checkout contains symlink text.
-  The Stage 1 runner demonstrates this for the NIST package.
-- `v1.toml` lists `src_tb/v1/LWC_config_tb.vhd`, while the actual file and
-  Makefile use `src_tb/v1/LWC_TB_config.vhd`. Reference the existing actual file
-  in the separate configuration without editing the upstream manifest.
+## Reproduce Stage 3
 
-Stage 3 will run original AEAD KAT inputs/expected outputs for encryption,
-valid decryption, and invalid-tag rejection, followed by synthesis for
-`xc7a12tcsg325-3` if available. The current round module is not the final AEAD
-synthesis top. The upstream full-wrapper top is `LWC_2pass`; establish and
-document the corresponding mixed-language synthesis top in the later stage.
-No area optimization is included in this port.
+Run these commands from the repository root with Vivado 2024.2 installed:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File ./SystemVerilogHardware/run_aead_regression.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File ./SystemVerilogHardware/run_invalid_tags.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File ./SystemVerilogHardware/run_stage3_synthesis.ps1
+```
+
+Each command defaults to both `reference` and `systemverilog`. Pass
+`-Designs reference` or `-Designs systemverilog` to run one configuration.
+All three accept `-VivadoBin 'C:/Xilinx/Vivado/2024.2/bin'`. Synthesis accepts
+`-ClockPeriodNs 10.0` (the default). These runs needed execution outside the
+Codex sandbox, as established in Stages 1 and 2.
+
+The regression selects all 648 AEAD records (324 encryptions, 324 decryptions)
+by original message ID, validates their SDI key associations, and excludes
+648 standalone hashes. It preserves all original INS/HDR/DAT/STT words and
+original order; only overflowing diagnostic `# TB :` comments are normalized
+to the bench's fixed-width fields. `reports/stage3/selection.csv` retains the
+full original IDs; `excluded_hash.csv` lists every excluded message.
+
+Default modes are 0 (normal handshakes) and 1 (three-cycle PDI, SDI, and DO
+stalls). An added passive monitor records cycles from each message's accepted
+first PDI word to its accepted status word, without serializing transactions.
+The original LWC testbench checks all expected outputs. All 648 per-message
+cycle counts match between designs in both modes. `-Modes 4` remains available
+as a diagnostic, but the upstream isolated timing mode deadlocks at message 20
+in both implementations; it is not part of the passing full regression.
+
+The invalid-tag runner uses original messages 7 (15-byte plaintext) and 6
+(empty plaintext), flipping tag bits 127, 64, and 0. Both cores reject all
+three modifications without releasing plaintext, including seven cycles of
+authentication acknowledgement backpressure. The unchanged wrapper returns
+failure status for empty messages but stalls after the plaintext header for
+nonempty rejected messages. The runner explicitly reports this as
+`WRAPPER_LIMITATION`, not successful protocol completion. Both core and
+external FIFO are reset between cases; rejected ciphertext is not flushed
+automatically. See the results report before integrating this wrapper.
+
+The synthesis top is `LWC_2pass` for both designs, with identical part,
+out-of-context synthesis settings, and clock/I/O constraints. The external
+payload FIFO is **excluded**; the wrapper's internal header FIFO is included.
+The unchanged reference also retains its standalone hash logic; the SV core
+is AEAD-only, so utilization differences are not solely a language comparison.
+Reports are **post-synthesis**, with no placement or routing. Both builds have
+positive setup slack but negative hold slack under the zero-delay I/O model;
+the reference also has 320 inferred latches and unconstrained latch endpoints.
+
+Builds use unique directories under `build/stage3/` to avoid stale results and
+mixed-language binding collisions. Reproducible command logs, selected-ID maps,
+per-message cycle CSVs, simulation logs, utilization, timing, and DRC reports
+are saved under `reports/stage3/`. The regression requires explicit completion,
+648 cases, 5,184 matched output words, empty failure output, and 648 timing rows;
+timeouts and partial runs cannot pass.
+
+Next concrete follow-up: repair nonempty authentication-failure completion and
+FIFO flushing in a separately derived integration, and resolve the upstream
+empty-AD dependency before treating isolated timing mode as a full benchmark.
+Keep the preserved baseline available for comparison. Physical timing closure
+requires board/top-level I/O and clock assumptions followed by implementation.
 
 ## Attribution and license
 
