@@ -46,8 +46,9 @@ module crypto_core_2pass_sv (
     output wire        fdo_valid,
     input  wire        fdo_ready
 );
-    // bdi_pad_loc, bdi_size and hash_in retain the LWC wrapper interface.
-    // The AEAD path derives padding from valid bytes and segment flags.
+    // The LWC interface also serves hash-capable cores. This AEAD-only core
+    // uses bdi_valid_bytes and the segment flags for padding, so bdi_pad_loc,
+    // bdi_size and hash_in intentionally have no fanout.
     localparam int CCW = 32;
     localparam int p_n = 320;
     localparam int p_k = 128;

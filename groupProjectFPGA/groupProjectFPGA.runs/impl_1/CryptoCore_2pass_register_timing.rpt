@@ -1,0 +1,58 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2026.1 (lin64) Build 6511674 Tue Jun 16 11:01:26 MDT 2026
+| Date         : Wed Nov 25 01:03:01 2026
+| Host         : 378bc45b8fcb running 64-bit Ubuntu 22.04.5 LTS
+| Command      : report_timing -delay_type min_max -from [all_registers -clock [get_clocks clk]] -to [all_registers -clock [get_clocks clk]] -max_paths 1 -file /home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/groupProjectFPGA/groupProjectFPGA.runs/impl_1/CryptoCore_2pass_register_timing.rpt
+| Design       : CryptoCore_2pass
+| Device       : 7a12t-csg325
+| Speed File   : -3  PRODUCTION 1.23 2018-06-13
+| Design State : Routed
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (MET) :             0.096ns  (arrival time - required time)
+  Source:                 core/isap_buf_s_reg[161]/C
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            core/isap_state_s_reg[289]/D
+                            (rising edge-triggered cell FDRE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk rise@0.000ns - clk rise@0.000ns)
+  Data Path Delay:        0.239ns  (logic 0.186ns (77.822%)  route 0.053ns (22.178%))
+  Logic Levels:           1  (LUT6=1)
+  Clock Path Skew:        0.022ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    0.432ns
+    Source Clock Delay      (SCD):    0.411ns
+    Clock Pessimism Removal (CPR):    -0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  <hidden>
+                                                      0.000     0.000 r  clk
+                         net (fo=948, unset)          0.411     0.411    core/clk
+    SLICE_X7Y8           FDRE                                         r  core/isap_buf_s_reg[161]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X7Y8           FDRE (Prop_fdre_C_Q)         0.141     0.552 r  core/isap_buf_s_reg[161]/Q
+                         net (fo=1, routed)           0.053     0.605    core/isap_buf_s_reg_n_0_[161]
+    SLICE_X6Y8           LUT6 (Prop_lut6_I4_O)        0.045     0.650 r  core/isap_state_s[289]_i_1/O
+                         net (fo=1, routed)           0.000     0.650    core/p_1_in__0[289]
+    SLICE_X6Y8           FDRE                                         r  core/isap_state_s_reg[289]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        0.000     0.000 r  <hidden>
+                                                      0.000     0.000 r  clk
+                         net (fo=948, unset)          0.432     0.432    core/clk
+    SLICE_X6Y8           FDRE                                         r  core/isap_state_s_reg[289]/C
+                         clock pessimism              0.000     0.432    <hidden>
+    SLICE_X6Y8           FDRE (Hold_fdre_C_D)         0.121     0.553    core/isap_state_s_reg[289]
+  -------------------------------------------------------------------
+                         required time                         -0.553    <hidden>
+                         arrival time                           0.650    <hidden>
+  -------------------------------------------------------------------
+                         slack                                  0.096    <hidden>
+
+
+
+

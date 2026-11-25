@@ -3,5 +3,10 @@
 Jun 16 2026
 11:12:08
 /home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/SystemVerilogHardware/rtl/asconp.sv,1795556587,systemVerilog,,/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/SystemVerilogHardware/tb/tb_asconp_equiv.sv,,asconp_sv,,uvm,../../../../../../../Xilinx/2026.1/data/rsb/busdef,,,,,
+/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/SystemVerilogHardware/tb/asconp_vhdl_ref.vhd,1795556587,vhdl2008,,,,asconp_vhdl_ref,,,,,,,,
 /home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/SystemVerilogHardware/tb/tb_asconp_equiv.sv,1795556587,systemVerilog,,,,tb_asconp_equiv,,uvm,../../../../../../../Xilinx/2026.1/data/rsb/busdef,,,,,
 /home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/groupProjectFPGA/groupProjectFPGA.sim/sim_1/behav/xsim/glbl.v,1773749341,verilog,,,,glbl,,uvm,,,,,,
+/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/hardware/LWC_rtl/NIST_LWAPI_pkg.vhd,1795556587,vhdl2008,/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/hardware/isap_lwc/src_rtl/v1/CryptoCore.vhd,,,nist_lwapi_pkg,,,,,,,,
+/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/hardware/isap_lwc/src_rtl/LWC_config_32.vhd,1795556587,vhdl2008,/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/hardware/LWC_rtl/NIST_LWAPI_pkg.vhd,,,lwc_config,,,,,,,,
+/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/hardware/isap_lwc/src_rtl/v1/CryptoCore.vhd,1795556587,vhdl2008,/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/SystemVerilogHardware/tb/asconp_vhdl_ref.vhd,,,asconp;cryptocore_2pass;keccakp400,,,,,,,,
+/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/hardware/isap_lwc/src_rtl/v1/design_pkg.vhd,1795556587,vhdl2008,/home/user/ece545GroupProject/ECE545-Cryptography-Group-Project/hardware/isap_lwc/src_rtl/v1/CryptoCore.vhd,,,design_pkg,,,,,,,,

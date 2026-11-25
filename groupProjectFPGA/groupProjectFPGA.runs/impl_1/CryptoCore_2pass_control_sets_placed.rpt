@@ -1,0 +1,100 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2026.1 (lin64) Build 6511674 Tue Jun 16 11:01:26 MDT 2026
+| Date         : Wed Nov 25 01:02:19 2026
+| Host         : 378bc45b8fcb running 64-bit Ubuntu 22.04.5 LTS
+| Command      : report_control_sets -verbose -file CryptoCore_2pass_control_sets_placed.rpt
+| Design       : CryptoCore_2pass
+| Device       : xc7a12t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    22 |
+|    Minimum number of control sets                        |    22 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    19 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    22 |
+| >= 0 to < 4        |     1 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     2 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |    17 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               2 |            2 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |              17 |           14 |
+| Yes          | No                    | No                     |             910 |          381 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |              20 |            9 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++--------------+----------------------------------------------+----------------------------------------------+------------------+----------------+--------------+
+| Clock Signal |                 Enable Signal                |               Set/Reset Signal               | Slice Load Count | Bel Load Count | Bels / Slice |
++--------------+----------------------------------------------+----------------------------------------------+------------------+----------------+--------------+
+|  clk         |                                              |                                              |                2 |              2 |         1.00 |
+|  clk         | core/fifo_last_word_valid_bytes_s[3]_i_2_n_0 | core/fifo_last_word_valid_bytes_s[3]_i_1_n_0 |                1 |              4 |         4.00 |
+|  clk         | core/isap_cnt_y_s[0]                         |                                              |                3 |              7 |         2.33 |
+|  clk         | core/isap_cnt_s[7]_i_1_n_0                   |                                              |                4 |              8 |         2.00 |
+|  clk         | core/isap_state_s[39]_i_1_n_0                |                                              |                6 |              8 |         1.33 |
+|  clk         | core/n_fifo_words_s[0]                       | rst                                          |                8 |             16 |         2.00 |
+|  clk         |                                              | rst                                          |               14 |             17 |         1.21 |
+|  clk         | core/isap_state_s[63]_i_1_n_0                |                                              |               18 |             24 |         1.33 |
+|  clk         | core/isap_nonce_s[127]_i_1_n_0               |                                              |                9 |             32 |         3.56 |
+|  clk         | core/isap_nonce_s[31]_i_1_n_0                |                                              |                8 |             32 |         4.00 |
+|  clk         | core/isap_nonce_s[63]_i_1_n_0                |                                              |                7 |             32 |         4.57 |
+|  clk         | core/isap_nonce_s[95]_i_1_n_0                |                                              |               17 |             32 |         1.88 |
+|  clk         | core/isap_key_s[95]_i_1_n_0                  |                                              |               18 |             32 |         1.78 |
+|  clk         | core/isap_state_s[31]_i_1_n_0                |                                              |               22 |             32 |         1.45 |
+|  clk         | core/isap_key_s[63]_i_1_n_0                  |                                              |               15 |             32 |         2.13 |
+|  clk         | core/isap_key_s[31]_i_1_n_0                  |                                              |               14 |             32 |         2.29 |
+|  clk         | core/isap_key_s[127]_i_1_n_0                 |                                              |               12 |             32 |         2.67 |
+|  clk         | core/isap_state_s[127]_i_1_n_0               |                                              |               40 |             64 |         1.60 |
+|  clk         | core/isap_state_s[191]_i_1_n_0               |                                              |               30 |             64 |         2.13 |
+|  clk         | core/isap_state_s[319]_i_1_n_0               |                                              |               52 |            127 |         2.44 |
+|  clk         | core/isap_y_s[127]_i_1_n_0                   |                                              |               47 |            128 |         2.72 |
+|  clk         | core/isap_buf_s[0]                           |                                              |               59 |            192 |         3.25 |
++--------------+----------------------------------------------+----------------------------------------------+------------------+----------------+--------------+
+
+

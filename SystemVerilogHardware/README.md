@@ -148,6 +148,27 @@ empty-AD dependency before treating isolated timing mode as a full benchmark.
 Keep the preserved baseline available for comparison. Physical timing closure
 requires board/top-level I/O and clock assumptions followed by implementation.
 
+## Placed core area in Vivado
+
+Open `groupProjectFPGA/groupProjectFPGA.xpr` from the repository root and select
+**Run Implementation**. In **Open Implemented Design → Report Utilization**,
+use the **Slice** row for occupied slices. Synthesis and implementation run
+out of context on the Artix-7 `xc7a12tcsg325-3`, so the core's parallel buses
+connect to FPGA fabric without consuming package pins.
+
+If the project was already open when the run settings changed, apply them in
+that session's Tcl Console before launching implementation:
+
+```tcl
+source [file join [get_property DIRECTORY [current_project]] configure_core_area.tcl]
+```
+
+This measurement covers `CryptoCore_2pass` and its Ascon-p round. The Stage 3
+`LWC_2pass` measurement also includes the protocol wrapper and header FIFO.
+For a comparison, match the top-level boundary, FPGA part, clock constraint and
+report stage. The project uses the Stage 3 10 ns clock and zero I/O delays.
+Timing at the ports depends on the surrounding logic and its placement.
+
 ## Attribution and license
 
 The round translation retains attribution to Robert Primas, copyright (c)
