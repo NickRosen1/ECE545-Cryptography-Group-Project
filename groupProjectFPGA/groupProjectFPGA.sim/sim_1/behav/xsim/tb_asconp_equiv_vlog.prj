@@ -1,0 +1,10 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  --include "../../../../../../../Xilinx/2026.1/data/rsb/busdef" \
+"../../../../../SystemVerilogHardware/rtl/asconp.sv" \
+"../../../../../SystemVerilogHardware/tb/tb_asconp_equiv.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
