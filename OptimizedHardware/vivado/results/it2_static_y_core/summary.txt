@@ -1,0 +1,2 @@
+design=it2_static_y top=core LUTs=1577 FFs=942 slices=480 latches=0
+period=10.0ns WNS=1.691ns WHS=0.096ns Fmax=120.4MHz

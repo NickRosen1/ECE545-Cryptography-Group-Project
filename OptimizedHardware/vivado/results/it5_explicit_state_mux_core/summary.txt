@@ -1,0 +1,2 @@
+design=it5_explicit_state_mux top=core LUTs=1308 FFs=942 slices=412 latches=0
+period=10.0ns WNS=3.004ns WHS=0.094ns Fmax=142.9MHz

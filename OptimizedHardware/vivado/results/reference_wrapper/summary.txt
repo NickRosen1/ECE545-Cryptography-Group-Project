@@ -1,0 +1,2 @@
+design=reference top=wrapper LUTs=2566 FFs=1360 slices=808 latches=320
+period=10.0ns WNS=2.443ns WHS=0.096ns Fmax=132.3MHz

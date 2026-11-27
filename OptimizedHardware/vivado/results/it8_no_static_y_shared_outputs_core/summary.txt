@@ -1,0 +1,2 @@
+design=it8_no_static_y_shared_outputs top=core LUTs=1304 FFs=942 slices=438 latches=0
+period=10.0ns WNS=3.590ns WHS=0.094ns Fmax=156.0MHz

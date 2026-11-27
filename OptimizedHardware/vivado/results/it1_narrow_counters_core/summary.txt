@@ -1,0 +1,2 @@
+design=it1_narrow_counters top=core LUTs=1518 FFs=943 slices=471 latches=0
+period=10.0ns WNS=3.270ns WHS=0.099ns Fmax=148.6MHz

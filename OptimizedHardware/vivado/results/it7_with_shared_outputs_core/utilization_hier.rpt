@@ -1,0 +1,29 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
+| Date         : Fri Nov 27 15:52:26 2026
+| Host         : Neils_Laptop running 64-bit major release  (build 9200)
+| Command      : report_utilization -hierarchical -file C:/git/ECE545-Cryptography-Group-Project/OptimizedHardware/vivado/results/it7_with_shared_outputs_core/utilization_hier.rpt
+| Design       : crypto_core_2pass_opt
+| Device       : xc7a12tcsg325-3
+| Speed File   : -3
+| Design State : Routed
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++-----------------------+--------+------------+------------+---------+------+-----+--------+--------+------------+
+|        Instance       | Module | Total LUTs | Logic LUTs | LUTRAMs | SRLs | FFs | RAMB36 | RAMB18 | DSP Blocks |
++-----------------------+--------+------------+------------+---------+------+-----+--------+--------+------------+
+| crypto_core_2pass_opt |  (top) |       1250 |       1250 |       0 |    0 | 942 |      0 |      0 |          0 |
++-----------------------+--------+------------+------------+---------+------+-----+--------+--------+------------+
+* Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
+
+

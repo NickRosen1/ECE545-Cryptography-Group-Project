@@ -1,0 +1,13 @@
+# generated, large or tool output
+verif/traces/
+verif/build/
+verif/golden/build/
+verif/replay/build/
+verif/vectors/cryptotvgen.log
+vivado/results/*/routed.dcp
+vivado/xsim_build/
+vivado/isap_opt/
+vivado/.Xil/
+*.jou
+*.log
+!verif/vectors/**/*.txt

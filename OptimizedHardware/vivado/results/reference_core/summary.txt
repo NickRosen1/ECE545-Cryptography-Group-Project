@@ -1,0 +1,2 @@
+design=reference top=core LUTs=2359 FFs=1284 slices=731 latches=320
+period=10.0ns WNS=2.619ns WHS=0.128ns Fmax=135.5MHz

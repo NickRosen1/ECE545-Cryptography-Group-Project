@@ -1,0 +1,2 @@
+design=it3_shared_absorb top=core LUTs=1477 FFs=946 slices=441 latches=0
+period=10.0ns WNS=3.074ns WHS=0.096ns Fmax=144.4MHz
